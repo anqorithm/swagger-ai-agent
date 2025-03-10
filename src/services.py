@@ -5,8 +5,8 @@ from langchain.chains import LLMChain
 from langchain_openai import OpenAI
 from langchain.prompts import PromptTemplate
 
-from config import logger, Settings
-from models import APISpecification, AppState
+from src.config import logger, Settings
+from src.models import APISpecification, AppState
 
 class AIService:
     

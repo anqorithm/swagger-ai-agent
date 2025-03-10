@@ -1,12 +1,12 @@
-from fastapi import FastAPI, UploadFile, File, Query, HTTPException, Depends, status
+from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, status
 import json
 
-from config import get_settings
-from models import (
+from src.config import get_settings
+from src.models import (
     MessageResponse, EndpointResponse, 
     AssistantRequest, AssistantResponse, AppState
 )
-from services import AIService, APISpecService
+from src.services import AIService, APISpecService
 
 app_state = AppState()
 
@@ -104,6 +104,24 @@ async def query_assistant(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error processing query: {str(e)}"
         )
+
+@app.get(
+    "/", 
+    response_model=MessageResponse,
+    summary="API root endpoint",
+    description="Welcome endpoint with basic API information"
+)
+def root():
+    return {
+        "message": f"Welcome to {settings.app_name} v{settings.app_version}",
+        "description": settings.app_description,
+        "endpoints": {
+            "health_check": "/v1/health",
+            "upload_specification": "/v1/specifications",
+            "get_endpoint_details": "/v1/endpoints/{endpoint_path}",
+            "query_assistant": "/v1/assistant/query"
+        }
+    }
 
 @app.get(
     "/v1/health", 

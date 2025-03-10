@@ -10,7 +10,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 class Settings(BaseSettings):
-    app_name: str = "API Documentation Assistant"
+    app_name: str = "API Documentation AI Assistant"
     app_description: str = "AI-powered API documentation assistant"
     app_version: str = "0.0.1"
     openai_api_key: str = Field(..., env="OPENAI_API_KEY")
